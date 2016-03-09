@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Shopping List App</string>
+
+    <string name="hint_new_user">New user ID here ...</string>
+    <string name="hint_new_shopping_list">New Shopping list here ...</string>
+    <string name="hint_new_item">New item here ...</string>
+
+    <string name="txt_add">Add</string>
+    <string name="txt_user_id">User ID</string>
+    <string name="txt_shopping_list_name">Shopping List Name</string>
+
+    <string name="log_info_last_activity_not_found">
+        User\'s last activity not found, loading all-user activity instead ...
+    </string>
+</resources>
