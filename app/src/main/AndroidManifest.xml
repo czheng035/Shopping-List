@@ -8,7 +8,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,14 +18,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AllUserActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ShoppingListsPerUserActivity"
-            android:label="@string/txt_user_id" />
+            android:label="@string/label_user_id" />
         <activity
             android:name=".ShoppingListActivity"
-            android:label="@string/txt_shopping_list_name" />
+            android:label="@string/label_shopping_list_name" />
+
+        <provider
+            android:name=".data.ApplicationContentProvider"
+            android:authorities="com.knowroaming.czheng035.shoppinglist"
+            android:exported="false" />
+
     </application>
 
 </manifest>

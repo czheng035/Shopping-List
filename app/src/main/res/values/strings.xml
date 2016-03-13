@@ -1,15 +1,29 @@
 <resources>
     <string name="app_name">Shopping List App</string>
 
-    <string name="hint_new_user">New user ID here ...</string>
+    <string name="hint_user_id">Input user ID here ...</string>
     <string name="hint_new_shopping_list">New Shopping list here ...</string>
     <string name="hint_new_item">New item here ...</string>
 
-    <string name="txt_add">Add</string>
-    <string name="txt_user_id">User ID</string>
-    <string name="txt_shopping_list_name">Shopping List Name</string>
+    <string name="extra_key_user_id">user_id</string>
+    <string name="extra_key_shopping_list_name">shopping_list_name</string>
+    <string name="extra_key_shopping_list_id">shopping_list_id</string>
+
+    <string name="menu_item_home">home</string>
+    <string name="menu_item_my_list">my lists</string>
+
+    <string name="label_add">Add</string>
+    <string name="label_user_id">User ID</string>
+    <string name="label_shopping_list_name">Shopping List Name</string>
+    <string name="label_done">Done</string>
+    <string name="label_remove">Remove</string>
+
+    <string name="msg_user_id_exist">User ID exists!</string>
+    <string name="msg_shopping_list_exist">Shopping List exists!</string>
+    <string name="msg_item_exist">Item exists!</string>
+    <string name="msg_item_added">Item added successfully!</string>
 
     <string name="log_info_last_activity_not_found">
-        User\'s last activity not found, loading all-user activity instead ...
+        User\'s last activity not found ...
     </string>
 </resources>

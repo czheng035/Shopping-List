@@ -10,6 +10,7 @@
           <set>
             <option value="/mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList" />
             <option value="/mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/app" />
+            <option value="/mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/library" />
           </set>
         </option>
       </GradleProjectSettings>

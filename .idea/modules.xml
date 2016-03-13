@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file:///mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/ShoppingList.iml" filepath="/mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/ShoppingList.iml" />
       <module fileurl="file:///mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/app/app.iml" filepath="/mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/app/app.iml" />
+      <module fileurl="file:///mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/library/library.iml" filepath="/mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/library/library.iml" />
+      <module fileurl="file:///mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/library/library.iml" filepath="/mnt/all_homes/Gentoo/home/santa/Coding/android/workspace/ShoppingList/library/library.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorAccent">
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_remove"
+        android:id="@+id/btn_remove"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_margin ="@dimen/style_default_margin"
+        android:textColor="@color/white"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_done"
+        android:id="@+id/btn_done"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin ="@dimen/style_default_margin"
+        android:textColor="@color/white"
+        style="?android:attr/borderlessButtonStyle" />
+</RelativeLayout>
