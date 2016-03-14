@@ -5,9 +5,6 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
- * Created by santa on 09/03/16.
- */
 public class UserContract implements BaseContract, BaseColumns {
 
     public static final String TABLE_NAME = "user";
