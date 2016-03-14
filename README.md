@@ -1,15 +1,6 @@
 # Shopping List
 
-The shopping list app completes the following requirements:
-1. A field where the user specifies their “id”. The shopping list items saved
-will be paired to the id specified.
-2. A “load list” button that displays previously saved lists for a user of the
-particular id.
-3. A page that lists all ids of users.
-4. A text field where the user inputs what they want to added to the list. This list should be available even when the user terminates and relaunches the app.
-5. Make sure that the information saved is specific to this user.
-6. Every entry in the list should contain a “Done” which removes the item
-when the user clicks it.
+This is a simple shopping list app which can manage shopping lists for different users.
 
 ## Extra Features
 - When users input a user id, shopping list name or item, the displaying list makes a responsive simple search
