@@ -25,10 +25,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ShoppingListContract._ID + " INTEGER PRIMARY KEY," +
 
                 ShoppingListContract.COLUMN_LIST_NAME + " TEXT NOT NULL, " +
-                ShoppingListContract.COLUMN_USER_ID + " INTEGER NOT NULL, " +
+                ShoppingListContract.COLUMN_USER_ID + " TEXT NOT NULL, " +
 
-                "FOREIGN KEY (" + ShoppingListContract._ID + ") REFERENCES " +
-                UserContract.TABLE_NAME + " (" + UserContract._ID + "), " +
+                "FOREIGN KEY (" + ShoppingListContract.COLUMN_USER_ID + ") REFERENCES " +
+                UserContract.TABLE_NAME + " (" + UserContract.COLUMN_USER_ID + "), " +
 
                 "UNIQUE (" + ShoppingListContract.COLUMN_USER_ID + ", " +
                 ShoppingListContract.COLUMN_LIST_NAME + ") ON CONFLICT REPLACE);";

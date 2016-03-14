@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 import com.knowroaming.czheng035.shoppinglist.adapter.UserAdapter;
 import com.knowroaming.czheng035.shoppinglist.data.UserContract;
+import com.knowroaming.czheng035.shoppinglist.util.CommonUtil;
 import com.knowroaming.czheng035.shoppinglist.util.LocalCacheUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -100,8 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
+            CommonUtil.hideSoftKeyboard(mEdtxtUserId, MainActivity.this);
+
             String userId = mEdtxtUserId.getText().toString().trim();
-            if (validateUserId(userId)) {
+            if (CommonUtil.validateUserInput(userId)) {
                 AsyncTask<String, Void, Boolean> addNewUserAsyncTask
                         = new AsyncTask<String, Void, Boolean>() {
                     private String mUserId;
@@ -153,11 +156,6 @@ public class MainActivity extends AppCompatActivity {
             mEdtxtUserId.setText(null);
         }
     };
-
-    private boolean validateUserId(String userId) {
-        if (userId == null || userId.trim().equals("")) return false;
-        else return true;
-    }
 
     private AdapterView.OnItemClickListener mUserListViewOnItemClickListener
             = new AdapterView.OnItemClickListener() {

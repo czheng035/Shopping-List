@@ -23,6 +23,7 @@ import android.widget.ListView;
 
 import com.knowroaming.czheng035.shoppinglist.adapter.ItemSwipeAdapter;
 import com.knowroaming.czheng035.shoppinglist.data.ItemContract;
+import com.knowroaming.czheng035.shoppinglist.util.CommonUtil;
 import com.knowroaming.czheng035.shoppinglist.util.LocalCacheUtil;
 
 public class ShoppingListActivity extends AppCompatActivity {
@@ -72,8 +73,10 @@ public class ShoppingListActivity extends AppCompatActivity {
     private View.OnClickListener mBtnNewItemOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            CommonUtil.hideSoftKeyboard(mEdtxtItemName, ShoppingListActivity.this);
+
             String itemName = mEdtxtItemName.getText().toString().trim();
-            if (validateItemName(itemName)) {
+            if (CommonUtil.validateUserInput(itemName)) {
                 AsyncTask<String, Void, Boolean> addNewItemAsyncTask
                         = new AsyncTask<String, Void, Boolean>() {
                     private String mItemName;
@@ -130,11 +133,6 @@ public class ShoppingListActivity extends AppCompatActivity {
             mEdtxtItemName.setText(null);
         }
     };
-
-    private boolean validateItemName(String itemName) {
-        if (itemName == null || itemName.trim().equals("")) return false;
-        else return true;
-    }
 
     private TextWatcher mEdtxtItemNameTextWatcher = new TextWatcher() {
         @Override

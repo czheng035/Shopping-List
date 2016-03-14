@@ -91,7 +91,18 @@ public class ApplicationContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case USER:
+                return UserContract.CONTENT_TYPE;
+            case SHOPPING_LIST:
+                return ShoppingListContract.CONTENT_TYPE;
+            case ITEM:
+                return ItemContract.CONTENT_TYPE;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
     }
 
     @Nullable
