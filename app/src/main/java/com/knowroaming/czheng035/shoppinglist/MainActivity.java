@@ -24,6 +24,11 @@ import com.knowroaming.czheng035.shoppinglist.data.UserContract;
 import com.knowroaming.czheng035.shoppinglist.util.CommonUtil;
 import com.knowroaming.czheng035.shoppinglist.util.LocalCacheUtil;
 
+/**
+ * This is the main activity which shows all user id and adds new users.
+ * The main activity also works
+ * as a dispatcher to restore the last seen activity if a user terminates the app.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private final static int LOADER_USER = 0;
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Restore the last seen activity when a user terminates the app
         Intent lastActivityIntent = LocalCacheUtil.getLastActivityIntent(this);
         if (lastActivityIntent != null) {
             restoreLastActivity(lastActivityIntent);
@@ -49,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         initView();
     }
 
+    /**
+     * Initialize the view related component of the activity
+     */
     private void initView() {
         mEdtxtUserId = (EditText) findViewById(R.id.edtxt_user_id);
         mBtnNewUser = (Button) findViewById(R.id.btn_new_user);
@@ -64,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportLoaderManager().initLoader(LOADER_USER, null, mUserCursorLoader);
     }
 
+    /**
+     * Restore the last activity's state depends on what are saved in the local cache
+     * @param intent Intent for the last seen activity
+     */
     private void restoreLastActivity(Intent intent) {
         String userId = LocalCacheUtil.getLastUser(this);
         long shoppingListId = LocalCacheUtil.getLastShoppingListId(this);
@@ -84,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    /**
+     * Set a text watcher to watch the user's input change and restart the loader with a different
+     * query to load the responsive searching result prefixed by user input
+     */
     private TextWatcher mEdtxtUserIdTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -104,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
             CommonUtil.hideSoftKeyboard(mEdtxtUserId, MainActivity.this);
 
             String userId = mEdtxtUserId.getText().toString().trim();
+
+            // If the user input for user id is not null, create an async task
+            // to query if the user id exists. If so show a snackbar and display a message
+            // for duplicate user input, else insert the new user id.
             if (CommonUtil.validateUserInput(userId)) {
                 AsyncTask<String, Void, Boolean> addNewUserAsyncTask
                         = new AsyncTask<String, Void, Boolean>() {
@@ -142,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Boolean result) {
                         if (result) {
+                            // If inserted successfully, start the ShoppingListsPerUser Activity
+                            // for the new user
                             startShoppingListsPerUserActivity(mUserId);
                         } else {
                             Snackbar.make(findViewById(R.id.root_layout),
@@ -162,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // When users click a user id, start the ShoppingListsPerUserActivity to show
+            // the user's all shopping list
             Cursor cursor = mUserAdapter.getCursor();
             if (cursor.moveToPosition(position)) {
                 int userIdColIndex = cursor.getColumnIndex(UserContract.COLUMN_USER_ID);
@@ -190,6 +216,9 @@ public class MainActivity extends AppCompatActivity {
 
             String userId = mEdtxtUserId.getText().toString().trim();
 
+            // If the loader id shows that this is a searching by user id query,
+            // add a selection restriction
+            // to retrieve the user ids prefixed by user input
             if (id == LOADER_USER_BY_USER_ID && !userId.equals("")) {
                 selection = UserContract.COLUMN_USER_ID + " LIKE ?";
                 selectionArgs = new String[]{
@@ -216,6 +245,10 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Start the ShoppingListsPerUserActivity to show the shopping list for the user
+     * @param userId The selected user id to show on the action bar
+     */
     private void startShoppingListsPerUserActivity(String userId) {
         String keyUserId = getString(R.string.extra_key_user_id);
 

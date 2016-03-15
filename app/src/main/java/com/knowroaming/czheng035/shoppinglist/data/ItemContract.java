@@ -5,6 +5,9 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+/**
+ * This class defines the content provider contract for item table
+ */
 public class ItemContract implements BaseContract, BaseColumns {
 
     public static final int ITEM_UNDONE = 0;

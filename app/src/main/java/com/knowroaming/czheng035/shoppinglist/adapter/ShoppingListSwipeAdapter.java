@@ -15,6 +15,10 @@ import com.daimajia.swipe.adapters.CursorSwipeAdapter;
 import com.knowroaming.czheng035.shoppinglist.R;
 import com.knowroaming.czheng035.shoppinglist.data.ShoppingListContract;
 
+/**
+ * This is a swipe layout adapter for the listview showing a specific user's
+ * all saved shopping lists
+ */
 public class ShoppingListSwipeAdapter extends CursorSwipeAdapter {
     public ShoppingListSwipeAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -44,6 +48,7 @@ public class ShoppingListSwipeAdapter extends CursorSwipeAdapter {
             @Override
             public void onClick(View view) {
 
+                // The async task remove the selected shopping list
                 AsyncTask<Void, Void, Void> mRemoveShoppingListTask = new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {

@@ -31,6 +31,10 @@ public class ShoppingListActivity extends AppCompatActivity {
     private final static int LOADER_ITEMS_BY_SHOPPING_LIST = 0;
     private final static int LOADER_ITEMS_BY_SHOPPING_LIST_AND_ITEM_NAME = 1;
 
+    /**
+     * This is a boolean switch to prevent the dispatcher activity from directing to the activity
+     * again if the user presses home, or my_list on the action bar
+     */
     private boolean mSaveActivityAsLast;
 
     private long mShoppingListId;
@@ -52,6 +56,9 @@ public class ShoppingListActivity extends AppCompatActivity {
         initView();
     }
 
+    /**
+     * Initialize the view related component of the activity
+     */
     private void initView() {
         mEdtxtItemName = (EditText) findViewById(R.id.edtxt_item_name);
         mBtnNewItem = (Button) findViewById(R.id.btn_new_item);
@@ -75,6 +82,10 @@ public class ShoppingListActivity extends AppCompatActivity {
         public void onClick(View v) {
             CommonUtil.hideSoftKeyboard(mEdtxtItemName, ShoppingListActivity.this);
 
+            // If the user input for item is not null, create an async task
+            // to query if the item exists in current shopping list.
+            // If so show a snackbar and display a message for duplicate item input,
+            // else insert the new item into the shopping list.
             String itemName = mEdtxtItemName.getText().toString().trim();
             if (CommonUtil.validateUserInput(itemName)) {
                 AsyncTask<String, Void, Boolean> addNewItemAsyncTask
@@ -87,7 +98,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
                         Uri uri = ItemContract.CONTENT_URI;
                         String selection = ItemContract.COLUMN_ITEM_NAME + "=? AND " +
-                                ItemContract.COLUMN_SHOPPING_LIST_ID +"=?";
+                                ItemContract.COLUMN_SHOPPING_LIST_ID + "=?";
                         String[] selectionArgs = {
                                 mItemName,
                                 Long.toString(mShoppingListId)
@@ -134,9 +145,14 @@ public class ShoppingListActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Set a text watcher to watch the user's input change and restart the loader with a different
+     * query to load the responsive searching result prefixed by user input
+     */
     private TextWatcher mEdtxtItemNameTextWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -145,7 +161,8 @@ public class ShoppingListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     };
 
     private LoaderManager.LoaderCallbacks<Cursor> mItemCursorLoader =
@@ -170,6 +187,9 @@ public class ShoppingListActivity extends AppCompatActivity {
 
                     String itemName = mEdtxtItemName.getText().toString().trim();
 
+                    // If loader id shows that this is a searching query by item name,
+                    // add a selection restriction
+                    // to retrieve the items prefixed by user input
                     if (id == LOADER_ITEMS_BY_SHOPPING_LIST_AND_ITEM_NAME && !itemName.equals("")) {
                         selection += " AND " + ItemContract.COLUMN_ITEM_NAME + " LIKE ?";
                         selectionArgs = new String[]{
@@ -200,6 +220,8 @@ public class ShoppingListActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        // Save the current activity as the last seen activity and the shopping list id and name
         if (mSaveActivityAsLast) {
             LocalCacheUtil.saveLastActivity(this, this);
             LocalCacheUtil.saveLastShoppingList(this, mShoppingListName, mShoppingListId);
@@ -216,6 +238,11 @@ public class ShoppingListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            // Home menu action clears last user seen activity, shopping list id, name,
+            // and user id cache. Also switch off saving the current activity as last seen activity
+            // in onPause.
+            // Then direct the user to the main activity.
             case R.id.menu_home: {
                 LocalCacheUtil.clearLastActivity(this);
                 LocalCacheUtil.clearLastUser(this);
@@ -226,6 +253,11 @@ public class ShoppingListActivity extends AppCompatActivity {
                 return true;
             }
 
+            // My list menu action clears last user seen activity, shopping list id and name,
+            // cache. Also switch off saving the current activity as last seen activity
+            // in onPause.
+            // Then direct the user to the ShoppingListsPerUserActivity with a passing parameter
+            // user id
             case R.id.menu_my_list: {
                 LocalCacheUtil.clearLastActivity(this);
                 LocalCacheUtil.clearLastShoppingList(this);

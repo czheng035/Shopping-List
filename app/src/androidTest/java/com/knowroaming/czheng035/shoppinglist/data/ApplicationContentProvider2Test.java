@@ -36,6 +36,10 @@ public class ApplicationContentProvider2Test extends ProviderTestCase2<Applicati
         mContentResolver = getMockContentResolver();
     }
 
+    /**
+     * Test the content provider is registered correctly
+     * @throws Exception
+     */
     public void testProviderRegistry() throws Exception {
         PackageManager pm = mContext.getPackageManager();
 
@@ -49,6 +53,9 @@ public class ApplicationContentProvider2Test extends ProviderTestCase2<Applicati
                 providerInfo.authority, is(equalTo(BaseContract.CONTENT_AUTHORITY)));
     }
 
+    /**
+     * Test the getType method of a content provider
+     */
     public void testGetType() {
 
         String type = mContentResolver.getType(UserContract.CONTENT_URI);
@@ -64,6 +71,9 @@ public class ApplicationContentProvider2Test extends ProviderTestCase2<Applicati
                 ItemContract.CONTENT_TYPE, is(equalTo(type)));
     }
 
+    /**
+     * Test case when insert a user and check if the record is there.
+     */
     public void testInsertUser() {
         insertUserJohn();
 
@@ -87,6 +97,9 @@ public class ApplicationContentProvider2Test extends ProviderTestCase2<Applicati
                 is(equalTo(false)));
     }
 
+    /**
+     * Test case for item update
+     */
     public void testUpdateItemStatus() {
         long itemId = insertItemTurkey();
 
@@ -121,8 +134,11 @@ public class ApplicationContentProvider2Test extends ProviderTestCase2<Applicati
                 is(equalTo(ItemContract.ITEM_DONE)));
     }
 
+    /**
+     * Test case for shopping list delete
+     */
     public void testDeleteShoppingList() {
-        long shoppingListId = inserThanksgivingShoppingList();
+        long shoppingListId = insertThanksgivingShoppingList();
 
         String selection = ShoppingListContract._ID + "=?";
         String[] selectionArgs = {
@@ -194,7 +210,7 @@ public class ApplicationContentProvider2Test extends ProviderTestCase2<Applicati
     }
 
 
-    private long inserThanksgivingShoppingList() {
+    private long insertThanksgivingShoppingList() {
         insertUserJohn();
         ContentValues testValues = createThanksgivingShoppingList(TEST_USER_ID);
         long shoppingListId = ContentUris
@@ -205,7 +221,7 @@ public class ApplicationContentProvider2Test extends ProviderTestCase2<Applicati
     }
 
     private long insertItemTurkey() {
-        long shoppingListId = inserThanksgivingShoppingList();
+        long shoppingListId = insertThanksgivingShoppingList();
         ContentValues testValues = createItemTurkey(shoppingListId);
         long tukeyId = ContentUris
                 .parseId(mContentResolver.insert(ItemContract.CONTENT_URI, testValues));

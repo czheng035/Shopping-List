@@ -5,6 +5,9 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+/**
+ * This class define the content provider contract for shopping_list table
+ */
 public class ShoppingListContract implements BaseContract, BaseColumns {
 
     public static final String TABLE_NAME = "shopping_list";

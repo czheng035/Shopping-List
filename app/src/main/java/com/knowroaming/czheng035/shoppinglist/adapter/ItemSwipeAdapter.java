@@ -17,6 +17,9 @@ import com.daimajia.swipe.adapters.CursorSwipeAdapter;
 import com.knowroaming.czheng035.shoppinglist.R;
 import com.knowroaming.czheng035.shoppinglist.data.ItemContract;
 
+/**
+ * This is the swipe layout adapter for the listview showing all items for a shopping list
+ */
 public class ItemSwipeAdapter extends CursorSwipeAdapter {
     public ItemSwipeAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -43,6 +46,7 @@ public class ItemSwipeAdapter extends CursorSwipeAdapter {
 
         final long itemId = cursor.getLong(itemIdColumnIndex);
 
+        // If the item status is done, hide the done button and strike through the item.
         int itemStatus = cursor.getInt(itemStatusColumnIndex);
         if(itemStatus == ItemContract.ITEM_DONE){
             viewHolder
@@ -59,6 +63,7 @@ public class ItemSwipeAdapter extends CursorSwipeAdapter {
                 @Override
                 public void onClick(View v) {
 
+                    // The async task is to change item status to done
                     AsyncTask<Void, Void, Void> mUpdateItemStatusTask = new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... params) {
@@ -84,6 +89,8 @@ public class ItemSwipeAdapter extends CursorSwipeAdapter {
                     };
 
                     mUpdateItemStatusTask.execute();
+
+                    // Hide the bottom view of the swiping layout
                     closeAllItems();
                 }
             });
@@ -93,6 +100,7 @@ public class ItemSwipeAdapter extends CursorSwipeAdapter {
             @Override
             public void onClick(View view) {
 
+                // This async task remove the selected item
                 AsyncTask<Void, Void, Void> mRemoveItemTask = new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {

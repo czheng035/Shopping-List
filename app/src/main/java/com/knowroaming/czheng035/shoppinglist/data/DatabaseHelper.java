@@ -27,9 +27,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ShoppingListContract.COLUMN_LIST_NAME + " TEXT NOT NULL, " +
                 ShoppingListContract.COLUMN_USER_ID + " TEXT NOT NULL, " +
 
+                // One user maps to many shopping lists
                 "FOREIGN KEY (" + ShoppingListContract.COLUMN_USER_ID + ") REFERENCES " +
                 UserContract.TABLE_NAME + " (" + UserContract.COLUMN_USER_ID + "), " +
 
+                // A shopping list is also identified by user id and shopping list name
                 "UNIQUE (" + ShoppingListContract.COLUMN_USER_ID + ", " +
                 ShoppingListContract.COLUMN_LIST_NAME + ") ON CONFLICT REPLACE);";
 
@@ -40,9 +42,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ItemContract.COLUMN_ITEM_STATUS + " INTEGER NOT NULL, " +
                 ItemContract.COLUMN_SHOPPING_LIST_ID + " INTEGER NOT NULL, " +
 
+                // One shopping list maps to many items
                 " FOREIGN KEY (" + ItemContract.COLUMN_SHOPPING_LIST_ID + ") REFERENCES " +
                 ShoppingListContract.TABLE_NAME + " (" + ShoppingListContract._ID + ") ON DELETE CASCADE, " +
 
+                // Item is also identified by shopping list id and item name
                 " UNIQUE (" + ItemContract.COLUMN_SHOPPING_LIST_ID + ", " +
                 ItemContract.COLUMN_ITEM_NAME + ") ON CONFLICT REPLACE);";
 

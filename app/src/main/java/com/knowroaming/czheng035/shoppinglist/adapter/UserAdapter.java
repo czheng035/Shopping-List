@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.knowroaming.czheng035.shoppinglist.data.UserContract;
 
+
+/**
+ * This is the user adapter for the listview showing all user ids
+ */
 public class UserAdapter extends CursorAdapter {
     public UserAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);

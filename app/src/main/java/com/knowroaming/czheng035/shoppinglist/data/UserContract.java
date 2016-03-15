@@ -5,6 +5,10 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+
+/**
+ * This class define the content provider contract for user table
+ */
 public class UserContract implements BaseContract, BaseColumns {
 
     public static final String TABLE_NAME = "user";

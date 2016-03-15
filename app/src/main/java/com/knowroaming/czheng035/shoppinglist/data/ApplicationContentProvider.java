@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+/**
+ * This is the custom content provider which provides CRUD operations to the
+ * user, shopping list and item tables
+ */
 public class ApplicationContentProvider extends ContentProvider {
 
     private static final int USER = 1;

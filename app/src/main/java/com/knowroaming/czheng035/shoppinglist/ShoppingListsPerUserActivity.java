@@ -28,13 +28,25 @@ import com.knowroaming.czheng035.shoppinglist.data.ShoppingListContract;
 import com.knowroaming.czheng035.shoppinglist.util.CommonUtil;
 import com.knowroaming.czheng035.shoppinglist.util.LocalCacheUtil;
 
+
+/**
+ * This activity has the functionality of adding, removing,
+ * and showing the shopping lists for a user.
+ */
 public class ShoppingListsPerUserActivity extends AppCompatActivity {
 
     private final static int LOADER_SHOPPING_LIST_BY_USER = 0;
     private final static int LOADER_SHOPPING_LIST_BY_USER_AND_NAME = 1;
 
+    /**
+     * This is a boolean switch to prevent the dispatcher activity from directing to here
+     * again if the user presses home on the action bar
+     */
     private boolean mSaveActivityAsLast;
 
+    /**
+     * This is the user id, not the user row id which is the _ID column in user table
+     */
     private String mUserId;
 
     private EditText mEdtxtShoppingListName;
@@ -56,12 +68,18 @@ public class ShoppingListsPerUserActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        // Save the current activity as the last seen user activity, and the user id
+        // in the preference file
         if (mSaveActivityAsLast) {
             LocalCacheUtil.saveLastActivity(this, this);
             LocalCacheUtil.saveLastUser(this, mUserId);
         }
     }
 
+    /**
+     * Initialize the view related component of the activity
+     */
     private void initView() {
         mEdtxtShoppingListName = (EditText) findViewById(R.id.edtxt_shopping_list_name);
         mBtnNewShoppingList = (Button) findViewById(R.id.btn_new_shopping_list);
@@ -80,6 +98,11 @@ public class ShoppingListsPerUserActivity extends AppCompatActivity {
         getSupportLoaderManager().initLoader(LOADER_SHOPPING_LIST_BY_USER, null, mShoppingListCursorLoader);
     }
 
+
+    /**
+     * Set a text watcher to watch the user's input change and restart the loader with a different
+     * query to load the responsive searching result prefixed by user input
+     */
     private TextWatcher mEdtxtShoppingListNameTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -100,6 +123,11 @@ public class ShoppingListsPerUserActivity extends AppCompatActivity {
             CommonUtil.hideSoftKeyboard(mEdtxtShoppingListName, ShoppingListsPerUserActivity.this);
 
             String shoppingListName = mEdtxtShoppingListName.getText().toString().trim();
+
+            // If the user input for shopping list name is not null, create an async task
+            // to query if the shopping list exists by user id and shopping list name.
+            // If so show a snackbar and display a message for duplicate
+            // shopping lists, else insert the new shopping list.
             if (CommonUtil.validateUserInput(shoppingListName)) {
                 AsyncTask<String, Void, Boolean> addNewShoppingListAsyncTask
                         = new AsyncTask<String, Void, Boolean>() {
@@ -161,6 +189,8 @@ public class ShoppingListsPerUserActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener mLvShoppingListOnItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // When users click a shopping list, start the ShoppingListActivity to show and edit the
+            // items for the shopping list
             Cursor cursor = mShoppingListAdapter.getCursor();
             if (cursor.moveToPosition(position)) {
                 int shoppingListIdColIndex = cursor.getColumnIndex(ShoppingListContract._ID);
@@ -192,6 +222,9 @@ public class ShoppingListsPerUserActivity extends AppCompatActivity {
 
             String shoppingListName = mEdtxtShoppingListName.getText().toString().trim();
 
+            // If the loader id shows that this is a searching query by shopping list name,
+            // add a selection restriction
+            // to retrieve the shopping list prefixed by user input
             if (id == LOADER_SHOPPING_LIST_BY_USER_AND_NAME && !shoppingListName.equals("")) {
                 selection += " AND " + ShoppingListContract.COLUMN_LIST_NAME + " LIKE ?";
                 selectionArgs = new String[]{
@@ -229,6 +262,9 @@ public class ShoppingListsPerUserActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+            // Home menu action clears last user seen activity and user id cache
+            // and direct the user to the main activity
             case R.id.menu_home:
                 LocalCacheUtil.clearLastActivity(this);
                 LocalCacheUtil.clearLastUser(this);
@@ -240,6 +276,12 @@ public class ShoppingListsPerUserActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Start the ShoppingListActivity for editing items for the shopping list
+     * identified by shopping list id.
+     * @param shoppingListName The shopping list name to show on the action bar
+     * @param shoppingListId The shopping list id
+     */
     private void startShoppingListActivity(String shoppingListName, long shoppingListId) {
         String keyShoppingListName = getString(R.string.extra_key_shopping_list_name);
         String keyShoppingListId = getString(R.string.extra_key_shopping_list_id);
